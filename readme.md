@@ -33,3 +33,13 @@ instruction below is used for windows
   ```
   python .\algorithm\app.py
   ```
+
+## Test
+
+send post request with 6 int data to /ahp, examole
+
+```json
+{
+    "all_criterias":[1,2,3,4,5,6]    
+}
+```
