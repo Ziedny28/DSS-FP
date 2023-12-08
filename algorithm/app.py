@@ -10,43 +10,99 @@ def home():
 
 @app.route('/ahp', methods=['POST'])
 def ahp():
+
     data = request.get_json()
-
-    # count criteria start
+    # get data
     all_criterias = data['all_criterias']
+    criteria_length = data['criteria_length']
+    alternatifs_point_per_criterias = data['alternatifs_point_per_criterias']
+    alternatif_count = len(alternatifs_point_per_criterias)
 
-    if len(all_criterias) != 6:
-        return jsonify({'error': 'An error occurred', 'message': 'all_criterias count is not 6'}), 400
+    if len(all_criterias) != criteria_length:
+        return jsonify({'error': 'An error occurred', 'message': f'all_criterias count is not {criteria_length}'}), 400
 
-    criteria_length = 6
-    table_criteria = np.zeros((criteria_length, criteria_length))
+    main_pw = priority_weight(criteria_length,all_criterias)
+    
+    pw_per_criteria = np.zeros((alternatif_count, criteria_length))
+    index = 0
+    for point_per_criteria in alternatifs_point_per_criterias:
+        if len(point_per_criteria) != criteria_length:
+            return jsonify({'error': 'An error occurred', 'message': f'alternatifs_point_per_criterias count is not {criteria_length}'}), 400
+        pw_per_criteria[index] = priority_weight(criteria_length, point_per_criteria)
+        index +=1
+
+    # pw_per_criteria = np.zeros((criteria_length, alternatif_count))
+    # for i in range(criteria_length):
+    #     temp = np.zeros(alternatif_count)
+    #     for j in range(alternatif_count):
+    #         temp[j] = alternatifs_point_per_criterias[j][i]
+    #     pw_per_criteria[i] = priority_weight(alternatif_count, temp)
+
+    #TODO: implement pengambilan keputusan  
+
+    #TODO: (optional)implement consistency_ratio
+    """
+consistency_ratio = np.zeros(criteria_length)
+for i in range(criteria_length):
+    for j in range(criteria_length):
+        consistency_ratio[i] += (table_criteria[i][j] * pw[j])
+
+# langkah ini opsional
+cr_per_pw = np.zeros(criteria_length)
+for i in range(criteria_length):
+    cr_per_pw[i] = consistency_ratio[i] / pw[i]
+
+lambda_max = sum(cr_per_pw)/criteria_length
+    """
+    #NOTE:kalau mau return json harus tolist()
+    return jsonify({
+        'pw': main_pw.tolist(),
+        'pw_per_criteria': pw_per_criteria.tolist(),
+    })
+
+
+def priority_weight(criteria_length,initial_value):
+
+    """
+    this function will return priority weight as list,
+    param: (criteria length, value in one dimention array)
+    """
+
+    # ini menyamping
+    table = np.zeros((criteria_length, criteria_length))
     for i in range(criteria_length):
         for j in range(criteria_length):
-            table_criteria[i][j] = all_criterias[i] / all_criterias[j] 
-
+            table[i][j] = initial_value[i] / initial_value[j] 
+    
     jumlah = np.zeros(criteria_length)
     for i in range(criteria_length):
         for j in range(criteria_length):
-            jumlah[i] +=  table_criteria[j][i]
+            jumlah[i] +=  table[j][i]
     
+    # ini kebawah 
     normalisasi = np.zeros((criteria_length, criteria_length))
     for i in range(criteria_length):
         for j in range(criteria_length):
-            normalisasi[i][j] = table_criteria[i][j] / jumlah[i]
+            normalisasi[i][j] = table[j][i] / jumlah[i]
 
     pw = np.zeros(criteria_length)
     for i in range(criteria_length):
-        pw[i] = np.sum(normalisasi[i]) / criteria_length
+        tot = 0
+        for j in range(criteria_length):
+            tot += normalisasi[j][i]
+        
+        tot /= criteria_length
+        pw[i] = tot
     
+    return pw
 
-    #NOTE:kalau mau return json harus tolist()
-    return jsonify({
-        'all_criterias': all_criterias,
-        'table_criteria': table_criteria.tolist(),
-        'jumlah': jumlah.tolist(),
-        'normalisasi': normalisasi.tolist(),
-        'pw': pw.tolist()
-    })
+def evaluation_weight(criteria_length,main_pw,pw_per_criteria):
+    result = np.zeros(len(pw_per_criteria[0]))
+    for i in range(criteria_length):
+        for j in range(len(pw_per_criteria[0])):
+            result[i] += pw_per_criteria[j][i] * main_pw[j]
+    
+    return result
 
 if __name__ == '__main__':
     app.run(debug=True)
