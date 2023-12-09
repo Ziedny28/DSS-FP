@@ -23,12 +23,21 @@ def ahp():
 
     main_pw = priority_weight(criteria_length,all_criterias)
     
-    pw_per_criteria = np.zeros((alternatif_count, criteria_length))
+    # index = 0
+    # pw_per_criteria = np.zeros((alternatif_count, criteria_length))
+    # for point_per_criteria in alternatifs_point_per_criterias:
+    #     if len(point_per_criteria) != criteria_length:
+    #         return jsonify({'error': 'An error occurred', 'message': f'alternatifs_point_per_criterias count is not {criteria_length}'}), 400
+    #     pw_per_criteria[index] = priority_weight(criteria_length, point_per_criteria)
+    #     index +=1
+
+# correct way
     index = 0
+    pw_per_criteria = np.zeros((criteria_length,alternatif_count))
     for point_per_criteria in alternatifs_point_per_criterias:
         if len(point_per_criteria) != criteria_length:
             return jsonify({'error': 'An error occurred', 'message': f'alternatifs_point_per_criterias count is not {criteria_length}'}), 400
-        pw_per_criteria[index] = priority_weight(criteria_length, point_per_criteria)
+        pw_per_criteria[index] = priority_weight(alternatif_count, point_per_criteria)
         index +=1
 
     # pw_per_criteria = np.zeros((criteria_length, alternatif_count))
