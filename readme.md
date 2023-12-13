@@ -40,6 +40,7 @@ send post request with 6 int data to /ahp, examole
 
 ```json
 {
+    
     "all_criterias":[3,9,3,3,6,6],
     "criteria_length":6,
     "alternatifs_point_per_criterias":[

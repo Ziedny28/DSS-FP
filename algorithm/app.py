@@ -21,6 +21,7 @@ def ahp():
     if len(all_criterias) != criteria_length:
         return jsonify({'error': 'An error occurred', 'message': f'all_criterias count is not {criteria_length}'}), 400
 
+    #(pw criteria 1, pw criteria 2, pw criteria 3,...pw  criteria n)
     main_pw = priority_weight(criteria_length,all_criterias)
     
     # index = 0
@@ -43,6 +44,7 @@ def ahp():
     test_pw = priority_weight(5,[6,6,6,6,6])
 
 # correct way
+#  (criteria 1:alt 1,alt 2,alt 3... alt n)
     pw_per_criteria = np.zeros((criteria_length, alternatif_count))
     for i in range(criteria_length):
         temp = np.zeros(alternatif_count)
@@ -74,8 +76,8 @@ lambda_max = sum(cr_per_pw)/criteria_length
     #NOTE:kalau mau return json harus tolist()
     return jsonify({
         'pw': main_pw.tolist(),
-        'pw_per_criteria': pw_per_criteria.tolist(),
-        'test_pw' : test_pw.tolist(),
+        'pw_alt_per_criteria': pw_per_criteria.tolist(),
+        # 'test_pw' : test_pw.tolist(),
         'final_decision': final_decision.tolist()
     })
 
@@ -84,8 +86,12 @@ def get_final_decision(alternatif_count,criteria_length,main_pw,pw_per_criteria)
     final_decision = np.zeros(alternatif_count)
     for i in range(alternatif_count):
         for j in range(criteria_length):
-            final_decision[i] += (main_pw[j] * pw_per_criteria[j][i])  
-    
+            final_decision[i] += (pw_per_criteria[j][i] * main_pw[j]) 
+
+            print(f"pw_per_criteria[{j}][{i}]:{pw_per_criteria[j][i]}") 
+            print(f"main_pw[{j}]:{main_pw[j]}") 
+            print(f"pw_per_criteria[{j}][{i}] * main_pw[{j}]{pw_per_criteria[j][i] * main_pw[j]}")
+            print(f"final_decision[{i}]{final_decision[i]}")
     return final_decision
 
 
