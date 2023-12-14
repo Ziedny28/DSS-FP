@@ -3,3 +3,5 @@
 numpy
 Flask
 Werkzeug
+flask_wtf
+wtforms
