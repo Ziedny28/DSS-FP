@@ -1,5 +1,6 @@
 import numpy as np
-from markupsafe import Markup
+
+# from markupsafe import Markup
 
 
 def get_final_decision(criteria_length, main_pw, pw_per_criteria, alternatif_names):

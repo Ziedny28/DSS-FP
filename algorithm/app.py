@@ -1,25 +1,18 @@
 import numpy as np
 from flask import Flask, jsonify, render_template, request
-from flask_cors import CORS
-from flask_wtf.csrf import CSRFProtect
 from forms import *
 from functions import *
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'secret_key'
-
-CORS(app)  # Enable CORS for all routes
-csrf = CSRFProtect(app)
-
+# Disable CSRF protection
+app.config['WTF_CSRF_ENABLED'] = False
 
 #region routes
 @app.route('/', methods=['GET'])
 def home():
-    csrf_token = csrf.generate_csrf_token(app)
-    # csrf_token = csrf.generate_csrf_token(app)
     form = Form()
-    return render_template('index.html', form=form, csrf_token = csrf_token)
+    return render_template('index.html', form=form)
     
 
 @app.route('/ahp', methods=['POST'])
@@ -65,19 +58,11 @@ def test():
 
         data = request.get_json()
 
-        # Process the JSON data as needed
-        # For example, you can access individual fields like this:
-        # bobot_pengalaman_kerja = data['bobot_kriteria']['pengalaman_kerja']
-        # bobot_skill = data['bobot_kriteria']['bobot_skill']
-        
-        # ... process other fields ...
-
         # You can then return a response, for example:
         response_data = {'message': 'Data received successfully'}
         return jsonify(response_data)
     
     except Exception as e:
-        # Handle any exceptions that might occur during processing
         error_message = str(e)
         print(error_message)
         return jsonify({'error': error_message}), 400  # You can customize the error response code

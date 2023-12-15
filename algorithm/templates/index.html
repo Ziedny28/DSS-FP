@@ -178,7 +178,7 @@
                 jsonData.alternatif.push(alternatif);
             }
 
-            jsonData['_csrf_token'] = "{{ csrf_token }}";
+            // jsonData['_csrf_token'] = "{{ csrf_token }}";
 
             axios.post('/test', jsonData)
                 .then(function (response) {
