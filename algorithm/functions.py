@@ -1,4 +1,5 @@
 import numpy as np
+from markupsafe import Markup
 
 
 def get_final_decision(criteria_length, main_pw, pw_per_criteria, alternatif_names):
@@ -56,3 +57,11 @@ def evaluation_weight(criteria_length,main_pw,pw_per_criteria):
             result[i] += pw_per_criteria[j][i] * main_pw[j]
     
     return result
+
+
+# def unpack(field, name, id):
+#     if isinstance(field, str):
+#         # Handle string case (e.g., return empty Markup)
+#         return Markup("")
+#     else:
+#         return Markup(field.name, field.id)

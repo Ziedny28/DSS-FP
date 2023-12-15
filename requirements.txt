@@ -5,3 +5,7 @@ Flask
 Werkzeug
 flask_wtf
 wtforms
+Flask-WTF
+jinja2
+markupsafe
+flask-cors
