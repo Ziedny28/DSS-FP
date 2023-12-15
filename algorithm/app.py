@@ -16,9 +16,10 @@ csrf = CSRFProtect(app)
 #region routes
 @app.route('/', methods=['GET'])
 def home():
+    csrf_token = csrf.generate_csrf_token(app)
     # csrf_token = csrf.generate_csrf_token(app)
     form = Form()
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, csrf_token = csrf_token)
     
 
 @app.route('/ahp', methods=['POST'])
@@ -62,12 +63,12 @@ def ahp():
 def test():
     try:
 
-        data = request.json
+        data = request.get_json()
 
         # Process the JSON data as needed
         # For example, you can access individual fields like this:
-        bobot_pengalaman_kerja = data['bobot_kriteria']['pengalaman_kerja']
-        bobot_skill = data['bobot_kriteria']['bobot_skill']
+        # bobot_pengalaman_kerja = data['bobot_kriteria']['pengalaman_kerja']
+        # bobot_skill = data['bobot_kriteria']['bobot_skill']
         
         # ... process other fields ...
 
