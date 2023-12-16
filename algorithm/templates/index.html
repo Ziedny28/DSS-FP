@@ -26,20 +26,21 @@
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
                             <input type="number" class="form-control" id="pengalaman_kerja"
-                                name="bobot_pengalaman_kerja" placeholder="">
+                                name="bobot_pengalaman_kerja" placeholder="" required>
                             <label class="text-sm-start" for="pengalaman_kerja">Pengalaman Kerja</label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="skill" name="bobot_skill" placeholder="">
+                            <input type="number" class="form-control" id="skill" name="bobot_skill" placeholder=""
+                                required>
                             <label class="text-sm-start" for="skill">Skill</label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
                             <input type="number" class="form-control" id="lokasi_kerja" name="bobot_lokasi_kerja"
-                                placeholder="">
+                                placeholder="" required>
                             <label class="text-sm-start" for="lokasi_kerja">Lokasi Kerja</label>
                         </div>
                     </div>
@@ -49,19 +50,20 @@
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
                             <input type="number" class="form-control" id="pengalaman_organisasi"
-                                name="bobot_pengalaman_organisasi" placeholder="">
+                                name="bobot_pengalaman_organisasi" placeholder="" required>
                             <label class="text-sm-start" for="pengalaman_organisasi">Pengalaman Organisasi</label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="umur" name="bobot_umur" placeholder="">
+                            <input type="number" class="form-control" id="umur" name="bobot_umur" placeholder=""
+                                required>
                             <label class="text-sm-start" for="umur">Umur</label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="ipk" name="bobot_ipk" placeholder="">
+                            <input type="number" class="form-control" id="ipk" name="bobot_ipk" placeholder="" required>
                             <label class="text-sm-start" for="ipk">IPK</label>
                         </div>
                     </div>
@@ -79,7 +81,7 @@
                         <div class="row">
                             <div class="form-floating col-6">
                                 <input type="text" class="form-control" id="nama_alternatif_{{i}}" placeholder=""
-                                    name="nama_alternatif_{{i}}">
+                                    name="nama_alternatif_{{i}}" required>
                                 <label class="text-sm-start" for="nama_alternatif_{{i}}">Nama alternatif</label>
                             </div>
                         </div>
@@ -99,7 +101,7 @@
                             <div class="col-4">
                                 <div class="form-floating mb">
                                     <input type="number" class="form-control" id="nilai_{{i}}" placeholder=""
-                                        name="nilai_{{i}}">
+                                        name="nilai_{{i}}" required>
                                     <label class="text-sm-start" for="nilai_{{i}}">Nilai alternatif</label>
                                 </div>
                             </div>
@@ -143,7 +145,7 @@
                 {% endfor %}
                 <!-- cards end -->
             </div>
-            <button type="button" onclick="submitForm();"> submit </button>
+            <button type="button" class="btn btn-primary" onclick="submitForm();"> submit </button>
         </form>
         <h1 id="solution"></h1>
         <div id="list-result"></div>
