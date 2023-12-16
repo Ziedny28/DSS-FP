@@ -109,6 +109,8 @@ def test():
 
         final_decision = get_final_decision(criteria_length,main_pw,pw_per_criteria,alternatifs_point_per_criterias_keys)
 
+        final_decision = [(key, value) for key, value in final_decision.items()]
+
         #NOTE:kalau mau return json harus tolist()
         return jsonify({
             'pw': main_pw.tolist(),

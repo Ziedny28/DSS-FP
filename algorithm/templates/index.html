@@ -197,22 +197,29 @@
                     list_result = document.getElementById('list-result')
 
                     // Check if final_decision is an object
-                    if (typeof final_decision === 'object') {
-                        // Loop through each property in final_decision
-                        for (let key in final_decision) {
-                            if (final_decision.hasOwnProperty(key)) {
-                                // Access the weight using final_decision[key]
-                                console.log(key + ': ' + final_decision[key]);
 
-                                const list_hasil = document.createElement('li');
-                                list_hasil.innerHTML = `<strong>${key}</strong>: ${final_decision[key]}`;
+                    final_decision.forEach(decision => {
+                        const list_hasil = document.createElement('li');
+                        list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
+                        list_result.append(list_hasil)
+                    });
 
-                                list_result.append(list_hasil)
-                            }
-                        }
-                    } else {
-                        console.log('final_decision is not an object');
-                    }
+                    // if (typeof final_decision === 'object') {
+                    //     // Loop through each property in final_decision
+                    //     for (let key in final_decision) {
+                    //         if (final_decision.hasOwnProperty(key)) {
+                    //             // Access the weight using final_decision[key]
+                    //             console.log(key + ': ' + final_decision[key]);
+
+                    //             const list_hasil = document.createElement('li');
+                    //             list_hasil.innerHTML = `<strong>${key}</strong>: ${final_decision[key]}`;
+
+                    //             list_result.append(list_hasil)
+                    //         }
+                    //     }
+                    // } else {
+                    //     console.log('final_decision is not an object');
+                    // }
 
                     document.getElementById('solution').innerHTML = response.data.message;
                 })
