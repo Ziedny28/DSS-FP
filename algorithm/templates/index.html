@@ -48,22 +48,21 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="pengalaman_kerja"
-                                name="bobot_pengalaman_kerja" placeholder="">
-                            <label class="text-sm-start" for="pengalaman_kerja">Pengalaman Organisasi</label>
+                            <input type="number" class="form-control" id="pengalaman_organisasi"
+                                name="bobot_pengalaman_organisasi" placeholder="">
+                            <label class="text-sm-start" for="pengalaman_organisasi">Pengalaman Organisasi</label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="skill" name="bobot_skill" placeholder="">
-                            <label class="text-sm-start" for="skill">Umur</label>
+                            <input type="number" class="form-control" id="umur" name="bobot_umur" placeholder="">
+                            <label class="text-sm-start" for="umur">Umur</label>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="lokasi_kerja" name="bobot_lokasi_kerja"
-                                placeholder="">
-                            <label class="text-sm-start" for="lokasi_kerja">IPK</label>
+                            <input type="number" class="form-control" id="ipk" name="bobot_ipk" placeholder="">
+                            <label class="text-sm-start" for="ipk">IPK</label>
                         </div>
                     </div>
                 </div>
@@ -85,10 +84,13 @@
                             </div>
                         </div>
 
-                        <div class="row mt-5">
+                        <div class="row  mt-5">
+                            <label for="pengalaman_kerja_{{i}}">Pengalaman Kerja</label>
+                        </div>
+
+                        <div class="row">
                             <div class="col-6">
                                 <select class="form-select" id="pengalaman_kerja_{{i}}" name="pengalaman_kerja_{{i}}">
-                                    <option>pengalaman kerja</option>
                                     {% for key, value in form.pengalaman_kerja.choices %}
                                     <option value="{{ key }}">{{ value }}</option>
                                     {% endfor %}
@@ -107,30 +109,30 @@
                             <div class="row">
                                 <div class="col-3">
                                     <div class="form-check">
-                                        {{ form.lokasi_kerja(class="form-check-input") }}
-
                                         <label class="form-check-label" for="lokasi_kerja_{{i}}">Dalam Malang</label>
+                                        <input type="checkbox" name="lokasi_kerja_{{i}}" class="form-check-input"
+                                            id="lokasi_kerja_{{i}}">
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-check">
-                                        {{ form.pengalaman_organisasi(class="form-check-input") }}
-
                                         <label class="form-check-label" for="pengalaman_organisasi_{{i}}">Berpengalaman
                                             Organisasi</label>
+                                        <input type="checkbox" name="pengalaman_organisasi_{{i}}"
+                                            class="form-check-input" id="pengalaman_organisasi_{{i}}">
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-check">
-                                        {{ form.umur(class="form-check-input") }}
-
-                                        <label class="form-check-label" for="umur_{{i}}">Lebih dari 25 Tahun</label>
+                                        <label class="form-check-label" for="umur_{{i}}">25 Tahun Kebawah</label>
+                                        <input type="checkbox" name="umur_{{i}}" class="form-check-input"
+                                            id="umur_{{i}}">
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="form-check">
-                                        {{ form.ipk(class="form-check-input") }}
                                         <label class="form-check-label" for="ipk_{{i}}">IPK 3.0 Keatas</label>
+                                        <input type="checkbox" name="ipk_{{i}}" class="form-check-input" id="ipk_{{i}}">
                                     </div>
                                 </div>
                             </div>
@@ -144,6 +146,7 @@
             <button type="button" onclick="submitForm();"> submit </button>
         </form>
         <h1 id="solution"></h1>
+        <div id="list-result"></div>
     </div>
     <script>
         function submitForm() {
@@ -178,13 +181,39 @@
                 jsonData.alternatif.push(alternatif);
             }
 
-            // jsonData['_csrf_token'] = "{{ csrf_token }}";
+            console.log(jsonData);
 
             axios.post('/test', jsonData)
                 .then(function (response) {
                     // handle success
                     console.log("Success");
                     console.log(response);
+
+                    final_decision = response.data.final_decision;
+
+                    console.log(typeof final_decision);
+                    console.log(final_decision);
+
+                    list_result = document.getElementById('list-result')
+
+                    // Check if final_decision is an object
+                    if (typeof final_decision === 'object') {
+                        // Loop through each property in final_decision
+                        for (let key in final_decision) {
+                            if (final_decision.hasOwnProperty(key)) {
+                                // Access the weight using final_decision[key]
+                                console.log(key + ': ' + final_decision[key]);
+
+                                const list_hasil = document.createElement('li');
+                                list_hasil.innerHTML = `<strong>${key}</strong>: ${final_decision[key]}`;
+
+                                list_result.append(list_hasil)
+                            }
+                        }
+                    } else {
+                        console.log('final_decision is not an object');
+                    }
+
                     document.getElementById('solution').innerHTML = response.data.message;
                 })
                 .catch(function (error) {
