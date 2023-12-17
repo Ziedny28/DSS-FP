@@ -1,231 +1,226 @@
-<!doctype html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
+{% block content %}
+<header>
+    <img src="https://www.training.com.au/wp-content/uploads/career-in-technology-feature.png" alt="Your Banner Image">
+</header>
 
-<body>
-    <div class="m-5">
-        <h1 class="text-center">Input Data</h1>
-        <a href="/history">history</a>
+<div class="container">
+    <h1 class="text-center mt-5">Input Data</h1>
 
-        <form action="/test" method="post" class="mx-lg-5" enctype="application/json" id="main_form">
+    <form action="/test" method="post" class="mx-lg-5" enctype="application/json" id="main_form">
 
-            <div class="row">
-                <div class="col-6 offset-3">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="judul" name="judul" placeholder="" required>
-                        <label class="text-sm-start" for="judul">Judul</label>
-                    </div>
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="form-floating shadow">
+                    <input type="text" class="form-control" id="judul" name="judul" placeholder="" required>
+                    <label class="text-sm-start" for="judul">Beri nama inputan</label>
                 </div>
             </div>
+        </div>
 
-            <h2 class="text-decoration-underline mt-5">Masukkan bobot kriteria</h2>
+        <div id="bobot-kriteria">
+
+            <h2 class="text-decoration text-center mt-5">Masukkan bobot kriteria</h2>
             <!-- bobot kriteria start -->
-            <div id="bobot-kriteria">
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="pengalaman_kerja"
-                                name="bobot_pengalaman_kerja" placeholder="" required>
-                            <label class="text-sm-start" for="pengalaman_kerja">Pengalaman Kerja</label>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="skill" name="bobot_skill" placeholder=""
-                                required>
-                            <label class="text-sm-start" for="skill">Skill</label>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="lokasi_kerja" name="bobot_lokasi_kerja"
-                                placeholder="" required>
-                            <label class="text-sm-start" for="lokasi_kerja">Lokasi Kerja</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="pengalaman_organisasi"
-                                name="bobot_pengalaman_organisasi" placeholder="" required>
-                            <label class="text-sm-start" for="pengalaman_organisasi">Pengalaman Organisasi</label>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="umur" name="bobot_umur" placeholder=""
-                                required>
-                            <label class="text-sm-start" for="umur">Umur</label>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-floating m-lg-3">
-                            <input type="number" class="form-control" id="ipk" name="bobot_ipk" placeholder="" required>
-                            <label class="text-sm-start" for="ipk">IPK</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- bobot kriteria end -->
-
-            <h2 class="text-decoration-underline my-5">Per Orang</h2>
-
             <div class="row">
-                <!-- cards start -->
-                {% for i in range(15) %}
-                <div class="card col-5 m-2">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-floating col-6">
-                                <input type="text" class="form-control" id="nama_alternatif_{{i}}" placeholder=""
-                                    name="nama_alternatif_{{i}}" required>
-                                <label class="text-sm-start" for="nama_alternatif_{{i}}">Nama alternatif</label>
+                <div id="bobot-kriteria" class="col-lg-8 offset-lg-2">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-floating m-lg-3">
+                                <input type="number" class="form-control shadow" id="pengalaman_kerja"
+                                    name="bobot_pengalaman_kerja" placeholder="" required>
+                                <label class="text-sm-start" for="pengalaman_kerja">Pengalaman Kerja</label>
                             </div>
                         </div>
-
-                        <div class="row  mt-5">
-                            <label for="pengalaman_kerja_{{i}}">Pengalaman Kerja</label>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-6">
-                                <select class="form-select" id="pengalaman_kerja_{{i}}" name="pengalaman_kerja_{{i}}">
-                                    {% for key, value in form.pengalaman_kerja.choices %}
-                                    <option value="{{ key }}">{{ value }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-floating mb">
-                                    <input type="number" class="form-control" id="nilai_{{i}}" placeholder=""
-                                        name="nilai_{{i}}" required>
-                                    <label class="text-sm-start" for="nilai_{{i}}">Nilai alternatif</label>
-                                </div>
+                        <div class="col-4">
+                            <div class="form-floating m-lg-3">
+                                <input type="number" class="form-control shadow" id="skill" name="bobot_skill"
+                                    placeholder="" required>
+                                <label class="text-sm-start" for="skill">Skill</label>
                             </div>
                         </div>
-
-                        <div id="checkboxes" class="mt-3">
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="lokasi_kerja_{{i}}">Dalam Malang</label>
-                                        <input type="checkbox" name="lokasi_kerja_{{i}}" class="form-check-input"
-                                            id="lokasi_kerja_{{i}}">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="pengalaman_organisasi_{{i}}">Berpengalaman
-                                            Organisasi</label>
-                                        <input type="checkbox" name="pengalaman_organisasi_{{i}}"
-                                            class="form-check-input" id="pengalaman_organisasi_{{i}}">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="umur_{{i}}">25 Tahun Kebawah</label>
-                                        <input type="checkbox" name="umur_{{i}}" class="form-check-input"
-                                            id="umur_{{i}}">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="ipk_{{i}}">IPK 3.0 Keatas</label>
-                                        <input type="checkbox" name="ipk_{{i}}" class="form-check-input" id="ipk_{{i}}">
-                                    </div>
-                                </div>
+                        <div class="col-4">
+                            <div class="form-floating m-lg-3">
+                                <input type="number" class="form-control shadow" id="lokasi_kerja"
+                                    name="bobot_lokasi_kerja" placeholder="" required>
+                                <label class="text-sm-start" for="lokasi_kerja">Lokasi Kerja</label>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-floating m-lg-3">
+                                <input type="number" class="form-control shadow" id="pengalaman_organisasi"
+                                    name="bobot_pengalaman_organisasi" placeholder="" required>
+                                <label class="text-sm-start" for="pengalaman_organisasi">Pengalaman Organisasi</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-floating m-lg-3">
+                                <input type="number" class="form-control shadow" id="umur" name="bobot_umur"
+                                    placeholder="" required>
+                                <label class="text-sm-start" for="umur">Umur</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-floating m-lg-3">
+                                <input type="number" class="form-control shadow" id="ipk" name="bobot_ipk"
+                                    placeholder="" required>
+                                <label class="text-sm-start" for="ipk">IPK</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
-                <!-- cards end -->
             </div>
-            <button type="button" class="btn btn-primary" onclick="submitForm();"> submit </button>
-        </form>
-        <h1 id="solution"></h1>
-        <div id="list-result"></div>
-    </div>
-    <script>
-        function submitForm() {
-            // Collect form data
-            const formData = new FormData(document.getElementById('main_form'));
+        </div>
+        <!-- bobot kriteria end -->
 
-            let jsonData = {
-                bobot_kriteria: {
-                    pengalaman_kerja: formData.get('bobot_pengalaman_kerja'),
-                    bobot_skill: formData.get('bobot_skill'),
-                    bobot_lokasi_kerja: formData.get('bobot_lokasi_kerja'),
-                    bobot_pengalaman_organisasi: formData.get('bobot_pengalaman_organisasi'),
-                    bobot_umur: formData.get('bobot_umur'),
-                    bobot_ipk: formData.get('bobot_ipk'),
-                },
-                alternatif: [],
+        <h2 class="text-center my-5">Per Alternatif</h2>
+
+        <div class="row">
+            <!-- cards start -->
+            {% for i in range(15) %}
+            <div class="card col-lg-5 col-md-8 my-2 card-input shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" id="nama_alternatif_{{i}}" placeholder=""
+                                name="nama_alternatif_{{i}}" required>
+                            <label class="text-sm-start" for="nama_alternatif_{{i}}">Nama alternatif</label>
+                        </div>
+                    </div>
+
+                    <div class="row  mt-5">
+                        <label for="pengalaman_kerja_{{i}}">Pengalaman Kerja</label>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <select class="form-select" id="pengalaman_kerja_{{i}}" name="pengalaman_kerja_{{i}}">
+                                {% for key, value in form.pengalaman_kerja.choices %}
+                                <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-floating mb">
+                                <input type="number" class="form-control" id="nilai_{{i}}" placeholder=""
+                                    name="nilai_{{i}}" required>
+                                <label class="text-sm-start" for="nilai_{{i}}">Nilai alternatif</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="checkboxes" class="mt-3">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="lokasi_kerja_{{i}}">Dalam Malang</label>
+                                    <input type="checkbox" name="lokasi_kerja_{{i}}" class="form-check-input"
+                                        id="lokasi_kerja_{{i}}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="pengalaman_organisasi_{{i}}">Berpengalaman
+                                        Organisasi</label>
+                                    <input type="checkbox" name="pengalaman_organisasi_{{i}}" class="form-check-input"
+                                        id="pengalaman_organisasi_{{i}}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="umur_{{i}}">25 Tahun Kebawah</label>
+                                    <input type="checkbox" name="umur_{{i}}" class="form-check-input" id="umur_{{i}}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="ipk_{{i}}">IPK 3.0 Keatas</label>
+                                    <input type="checkbox" name="ipk_{{i}}" class="form-check-input" id="ipk_{{i}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-1"></div>
+            {% endfor %}
+            <!-- cards end -->
+        </div>
+
+        <button type="button" class="btn btn-primary mx-auto my-4" onclick="submitForm();"> Hitung </button>
+    </form>
+    <h1 id="solution"></h1>
+    <div id="list-result"></div>
+</div>
+<script>
+    function submitForm() {
+        // Collect form data
+        const formData = new FormData(document.getElementById('main_form'));
+
+        let jsonData = {
+            bobot_kriteria: {
+                pengalaman_kerja: formData.get('bobot_pengalaman_kerja'),
+                bobot_skill: formData.get('bobot_skill'),
+                bobot_lokasi_kerja: formData.get('bobot_lokasi_kerja'),
+                bobot_pengalaman_organisasi: formData.get('bobot_pengalaman_organisasi'),
+                bobot_umur: formData.get('bobot_umur'),
+                bobot_ipk: formData.get('bobot_ipk'),
+            },
+            alternatif: [],
+        };
+
+        // Get alternative data from form
+        for (let i = 0; i < 15; i++) {
+            const alternatif = {
+                nama: formData.get(`nama_alternatif_${i}`),
+                pengalaman_kerja: formData.get(`pengalaman_kerja_${i}`),
+                nilai: formData.get(`nilai_${i}`),
+                lokasi_kerja: formData.get(`lokasi_kerja_${i}`),
+                pengalaman_organisasi: formData.get(`pengalaman_organisasi_${i}`),
+                umur: formData.get(`umur_${i}`),
+                ipk: formData.get(`ipk_${i}`),
+                // Add data for other fields based on your form
             };
 
-            // Get alternative data from form
-            for (let i = 0; i < 15; i++) {
-                const alternatif = {
-                    nama: formData.get(`nama_alternatif_${i}`),
-                    pengalaman_kerja: formData.get(`pengalaman_kerja_${i}`),
-                    nilai: formData.get(`nilai_${i}`),
-                    lokasi_kerja: formData.get(`lokasi_kerja_${i}`),
-                    pengalaman_organisasi: formData.get(`pengalaman_organisasi_${i}`),
-                    umur: formData.get(`umur_${i}`),
-                    ipk: formData.get(`ipk_${i}`),
-                    // Add data for other fields based on your form
-                };
-
-                jsonData.alternatif.push(alternatif);
-            }
-
-            judul = document.getElementById('judul').value;
-            jsonData["judul"] = judul;
-            console.log(jsonData);
-
-            axios.post('/test', jsonData)
-                .then(function (response) {
-                    // handle success
-                    console.log("Success");
-                    console.log(response);
-
-                    final_decision = response.data.final_decision;
-
-                    console.log(typeof final_decision);
-                    console.log(final_decision);
-
-                    list_result = document.getElementById('list-result')
-
-                    // Check if final_decision is an object
-
-                    final_decision.forEach(decision => {
-                        const list_hasil = document.createElement('li');
-                        list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
-                        list_result.append(list_hasil)
-                    });
-
-                    document.getElementById('solution').innerHTML = response.data.message;
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
+            jsonData.alternatif.push(alternatif);
         }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-</body>
 
-</html>
+        judul = document.getElementById('judul').value;
+        jsonData["judul"] = judul;
+        console.log(jsonData);
+
+        axios.post('/test', jsonData)
+            .then(function (response) {
+                // handle success
+                console.log("Success");
+                console.log(response);
+
+                final_decision = response.data.final_decision;
+
+                console.log(typeof final_decision);
+                console.log(final_decision);
+
+                list_result = document.getElementById('list-result')
+
+                // Check if final_decision is an object
+
+                final_decision.forEach(decision => {
+                    const list_hasil = document.createElement('li');
+                    list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
+                    list_result.append(list_hasil)
+                });
+
+                document.getElementById('solution').innerHTML = "Hasil";
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+    }
+</script>
+{% endblock %}
