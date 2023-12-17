@@ -154,6 +154,14 @@ def history():
     histories = collection.find({}) #get data
     return render_template('history.html', histories=histories)
 
+# TODO: implement delete history
+@app.route('/delete-history', methods=['POST'])
+def delete_history():
+    data =  request.get_json()
+    title = data["title"]
+    collection.delete_one({'title':title})
+    return jsonify({'message': 'deleted successfully'}), 200
+
 #endregion
 
 if __name__ == '__main__':
