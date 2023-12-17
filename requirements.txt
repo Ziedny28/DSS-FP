@@ -9,3 +9,5 @@ Flask-WTF
 jinja2
 markupsafe
 flask-cors
+pymongo
+python-dotenv

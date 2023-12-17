@@ -20,6 +20,11 @@ instruction below is used for windows
   ```
     pip install -r requirements.txt
   ```
+- copy .env.example as .env
+  ```
+  cp .env.example .env
+  ```
+- insert your configuration in .env
 
 ## Run 
 

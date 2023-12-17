@@ -13,11 +13,18 @@
 <body>
     <div class="m-5">
         <h1 class="text-center">Input Data</h1>
+        <a href="/history">history</a>
 
+        <form action="/test" method="post" class="mx-lg-5" enctype="application/json" id="main_form">
 
-        <form action="http://127.0.0.1:5000/test" method="post" class="mx-lg-5" enctype="application/json"
-            id="main_form">
-            {{ form.csrf_token }}
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="judul" name="judul" placeholder="" required>
+                        <label class="text-sm-start" for="judul">Judul</label>
+                    </div>
+                </div>
+            </div>
 
             <h2 class="text-decoration-underline mt-5">Masukkan bobot kriteria</h2>
             <!-- bobot kriteria start -->
@@ -183,6 +190,8 @@
                 jsonData.alternatif.push(alternatif);
             }
 
+            judul = document.getElementById('judul').value;
+            jsonData["judul"] = judul;
             console.log(jsonData);
 
             axios.post('/test', jsonData)
@@ -205,23 +214,6 @@
                         list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
                         list_result.append(list_hasil)
                     });
-
-                    // if (typeof final_decision === 'object') {
-                    //     // Loop through each property in final_decision
-                    //     for (let key in final_decision) {
-                    //         if (final_decision.hasOwnProperty(key)) {
-                    //             // Access the weight using final_decision[key]
-                    //             console.log(key + ': ' + final_decision[key]);
-
-                    //             const list_hasil = document.createElement('li');
-                    //             list_hasil.innerHTML = `<strong>${key}</strong>: ${final_decision[key]}`;
-
-                    //             list_result.append(list_hasil)
-                    //         }
-                    //     }
-                    // } else {
-                    //     console.log('final_decision is not an object');
-                    // }
 
                     document.getElementById('solution').innerHTML = response.data.message;
                 })

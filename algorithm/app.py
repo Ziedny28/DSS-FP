@@ -1,12 +1,25 @@
+import os
+
 import numpy as np
+import pymongo
+from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
 from forms import *
 from functions import *
+from pymongo import MongoClient
+
+load_dotenv()
 
 app = Flask(__name__)
 
 # Disable CSRF protection
 app.config['WTF_CSRF_ENABLED'] = False
+
+
+mongodb_url = os.getenv("MONGODB_URL")
+cluster = MongoClient(mongodb_url)
+db = cluster["dss-ahp"]
+collection = db["history"]
 
 #region routes
 @app.route('/', methods=['GET'])
@@ -17,7 +30,6 @@ def home():
 
 @app.route('/ahp', methods=['POST'])
 def ahp():
-
     data = request.get_json()
     # get data
     all_criterias = data['all_criterias']
@@ -63,6 +75,8 @@ def test():
         alternatifs_point_per_criterias = []
         for alt in alternatif:
             for key, value in alt.items():
+                # jika uncheck maka bernilai 1
+                # jika checked bernilai 3
                 if value == None:
                     value = 1
                 if value == 'on':
@@ -90,7 +104,7 @@ def test():
 
         alternatif_count = len(alternatifs_point_per_criterias)
 
-        alternatifs_point_per_criterias_values = [int(x) if isinstance(x, str) else x for x in alternatifs_point_per_criterias_values]
+        alternatifs_point_per_criterias_values = [int(x) if isinstance(x, str) else x for x in alternatifs_point_per_criterias_values] #if its string then convert to int
 
         if len(all_criterias) != criteria_length:
             return jsonify({'error': 'An error occurred', 'message': f'all_criterias count is not {criteria_length}'}), 400
@@ -109,7 +123,17 @@ def test():
 
         final_decision = get_final_decision(criteria_length,main_pw,pw_per_criteria,alternatifs_point_per_criterias_keys)
 
-        final_decision = [(key, value) for key, value in final_decision.items()]
+        final_decision = [(key, value) for key, value in final_decision.items()] # make a list of (key, value)
+
+        # masukin data ke db
+        history_data = {
+            "final_decision":final_decision,
+            "alternatifs_point_per_criterias": alternatifs_point_per_criterias,
+            "title": data['judul']
+        }
+
+        collection.insert_one(history_data)
+
 
         #NOTE:kalau mau return json harus tolist()
         return jsonify({
@@ -119,15 +143,16 @@ def test():
             'final_decision': final_decision
         })
     
-        # # You can then return a response, for example:
-        # response_data = {'message': 'Data received successfully'}
-        # return jsonify(response_data)
-    
     except Exception as e:
         error_message = str(e)
         print(error_message)
         return jsonify({'error': error_message}), 400  # You can customize the error response code
 
+# TODO: Implement history, setelah melakukan perhitungan masukkan ke database dan simpan history dari value input ke hasil akhir
+@app.route('/history', methods=['GET'])
+def history():
+    histories = collection.find({}) #get data
+    return render_template('history.html', histories=histories)
 
 #endregion
 
