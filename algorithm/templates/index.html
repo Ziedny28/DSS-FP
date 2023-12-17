@@ -156,8 +156,36 @@
     </form>
     <h1 id="solution"></h1>
     <div id="list-result"></div>
+    <canvas id="myChart"></canvas>
 </div>
 <script>
+    function startChart(alternatif_labels, alternatif_data) {
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: alternatif_labels,
+                datasets: [{
+                    label: 'Hasil Akhir',
+                    // data: [12, 19, 3, 5, 2, 3],
+                    data: alternatif_data,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+
     function submitForm() {
         // Collect form data
         const formData = new FormData(document.getElementById('main_form'));
@@ -197,23 +225,30 @@
         axios.post('/test', jsonData)
             .then(function (response) {
                 // handle success
-                console.log("Success");
                 console.log(response);
 
                 final_decision = response.data.final_decision;
 
-                console.log(typeof final_decision);
                 console.log(final_decision);
 
                 list_result = document.getElementById('list-result')
-
                 // Check if final_decision is an object
+
+                // save data for chart
+                alternatif_labels = []
+                alternatif_data = []
 
                 final_decision.forEach(decision => {
                     const list_hasil = document.createElement('li');
                     list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
                     list_result.append(list_hasil)
+
+                    // save data for chart
+                    alternatif_labels.push(decision[0])
+                    alternatif_data.push(decision[1])
                 });
+
+                startChart(alternatif_labels, alternatif_data)
 
                 document.getElementById('solution').innerHTML = "Hasil";
             })
