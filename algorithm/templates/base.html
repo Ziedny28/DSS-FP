@@ -19,7 +19,43 @@
             top: 0;
             left: 0;
         }
+
+        #history-title {
+            z-index: 5;
+            position: absolute;
+            margin-top: -60px;
+            color: white;
+            font-size: 50px;
+        }
     </style>
+    <script>
+        function startChart(alternatif_labels, alternatif_data, chartId) {
+            console.log("masuk startChart");
+            const ctx = document.getElementById(chartId);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: alternatif_labels,
+                    datasets: [{
+                        label: 'Hasil Akhir',
+                        // data: [12, 19, 3, 5, 2, 3],
+                        data: alternatif_data,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>

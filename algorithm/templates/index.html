@@ -159,33 +159,6 @@
     <canvas id="myChart"></canvas>
 </div>
 <script>
-    function startChart(alternatif_labels, alternatif_data) {
-        const ctx = document.getElementById('myChart');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                labels: alternatif_labels,
-                datasets: [{
-                    label: 'Hasil Akhir',
-                    // data: [12, 19, 3, 5, 2, 3],
-                    data: alternatif_data,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
-
     function submitForm() {
         // Collect form data
         const formData = new FormData(document.getElementById('main_form'));
@@ -248,7 +221,7 @@
                     alternatif_data.push(decision[1])
                 });
 
-                startChart(alternatif_labels, alternatif_data)
+                startChart(alternatif_labels, alternatif_data, "myChart")
 
                 document.getElementById('solution').innerHTML = "Hasil";
             })

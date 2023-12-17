@@ -1,31 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>History</h1>
-{% for history in histories %}
-<h3>{{history.title}}</h3>
-<button class="btn btn-danger" onclick="deleteHistory('{{history.title}}')">Delete</button>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for person in history.final_decision %}
-        <tr>
-            <td>
-                {{ person[0] }}
-            </td>
-            <td>
-                {{ person[1] }}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endfor %}
+<header>
+    <img src="https://www.training.com.au/wp-content/uploads/career-in-technology-feature.png" alt="Your Banner Image">
+</header>
+<h1 id="history-title" class="mx-5">History</h1>
+
+<div class="container">
+
+    <!-- for charts -->
+    {% for history in histories %}
+    <div class="history my-5">
+        <script>
+            var alternatif_labels = [];
+            var alternatif_data = [];
+        </script>
+        <h3>{{history.title}}</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in history.final_decision %}
+                <tr>
+                    <td>
+                        {{ person[0] }}
+                    </td>
+                    <td>
+                        {{ person[1] }}
+                    </td>
+                </tr>
+                <!-- for charts -->
+                <script>
+                    alternatif_labels.push("{{person[0]}}");
+                    alternatif_data.push("{{person[1]}}");
+                </script>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="btn btn-danger" onclick="deleteHistory('{{history.title}}')">Delete</button>
+
+        <!-- canvas per history -->
+        <canvas id="myChart-{{loop.index}}"></canvas>
+
+        <script>
+            startChart(alternatif_labels, alternatif_data, "myChart-{{loop.index}}")
+        </script>
+    </div>
+
+    {% endfor %}
+
 </div>
 
 <script>
@@ -49,4 +76,5 @@
             });
     }
 </script>
+
 {% endblock %}
