@@ -79,9 +79,35 @@
 
         <h2 class="text-center my-5">Per Alternatif</h2>
 
+        <p class="text-center fw-bold">Masukkan jumlah alternatif</p>
+
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="row">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="card-count" name="card-count"
+                            placeholder="number">
+                        <label for="card-count">Alternatif count<label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 offset-4">
+                        <button id="create-card-button" class="btn btn-primary" onclick="createCard()"
+                            type="button">Buat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" id="cards_location"></div>
+
+
+
+
         <div class="row">
             <!-- cards start -->
-            {% for i in range(15) %}
+            <!-- {% for i in range(15) %}
             <div class="card col-lg-5 col-md-8 my-2 card-input shadow">
                 <div class="card-body">
                     <div class="row">
@@ -148,17 +174,26 @@
                 </div>
             </div>
             <div class="col-1"></div>
-            {% endfor %}
+            {% endfor %} -->
             <!-- cards end -->
         </div>
 
-        <button type="button" class="btn btn-primary mx-auto my-4" onclick="submitForm();"> Hitung </button>
+        <button type="button" class="btn btn-primary mx-auto my-4" id="button-hitung" onclick="submitForm();"> Hitung
+        </button>
     </form>
     <h1 id="solution"></h1>
     <div id="list-result"></div>
     <canvas id="myChart"></canvas>
 </div>
 <script>
+    document.getElementById('button-hitung').disabled = true;
+
+    cardCount = 0
+
+    function setCardCount(count) {
+        cardCount = count
+    }
+
     function submitForm() {
         // Collect form data
         const formData = new FormData(document.getElementById('main_form'));
@@ -176,7 +211,7 @@
         };
 
         // Get alternative data from form
-        for (let i = 0; i < 15; i++) {
+        for (let i = 1; i <= cardCount; i++) {
             const alternatif = {
                 nama: formData.get(`nama_alternatif_${i}`),
                 pengalaman_kerja: formData.get(`pengalaman_kerja_${i}`),
@@ -229,6 +264,100 @@
                 // handle error
                 console.log(error);
             })
+    }
+
+    function createCard() {
+
+        // disable create card input
+        document.getElementById('create-card-button').disabled = true;
+        document.getElementById('button-hitung').disabled = false;
+
+        count = document.getElementById('card-count').value;
+        setCardCount(count);
+
+        const cards_location = document.getElementById('cards_location');
+
+        let cardsHtml = ``
+
+        for (i = 1; i <= count; i++) {
+            const nama_alternatif = `nama_alternatif_${i}`;
+            const pengalaman_kerja = `pengalaman_kerja_${i}`;
+            const nilai = `nilai_${i}`;
+            const lokasi_kerja = `lokasi_kerja_${i}`;
+            const pengalaman_organisasi = `pengalaman_organisasi_${i}`;
+            const umur = `umur_${i}`;
+            const ipk = `ipk_${i}`;
+
+            const card = `<div class="card col-lg-5 col-md-8 my-2 card-input shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" id="${nama_alternatif}" placeholder=""
+                                name="${nama_alternatif}" required>
+                            <label class="text-sm-start" for="${nama_alternatif}">Nama alternatif</label>
+                        </div>
+                    </div>
+
+                    <div class="row  mt-5">
+                        <label for="${pengalaman_kerja}">Pengalaman Kerja</label>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <select class="form-select" id="${pengalaman_kerja}" name="${pengalaman_kerja}">
+                                {% for key, value in form.pengalaman_kerja.choices %}
+                                <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-floating mb">
+                                <input type="number" class="form-control" id="${nilai}" placeholder=""
+                                    name="${nilai}" required>
+                                <label class="text-sm-start" for="${nilai}">Nilai alternatif</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="checkboxes" class="mt-3">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="${lokasi_kerja}">Dalam Malang</label>
+                                    <input type="checkbox" name="${lokasi_kerja}" class="form-check-input"
+                                        id="${lokasi_kerja}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="${pengalaman_organisasi}">Berpengalaman
+                                        Organisasi</label>
+                                    <input type="checkbox" name="${pengalaman_organisasi}" class="form-check-input"
+                                        id="${pengalaman_organisasi}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="${umur}">25 Tahun Kebawah</label>
+                                    <input type="checkbox" name="${umur}" class="form-check-input" id="${umur}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="${ipk}">IPK 3.0 Keatas</label>
+                                    <input type="checkbox" name="${ipk}" class="form-check-input" id="${ipk}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-1"></div>`
+
+            cardsHtml += card;
+        }
+        cards_location.innerHTML = cardsHtml;
     }
 </script>
 {% endblock %}
