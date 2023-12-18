@@ -186,6 +186,7 @@
     <canvas id="myChart"></canvas>
 </div>
 <script>
+    // tidak boleh menghitung hasil akhir sebelum memeasukkan jumlah kartu
     document.getElementById('button-hitung').disabled = true;
 
     cardCount = 0
@@ -272,13 +273,16 @@
         document.getElementById('create-card-button').disabled = true;
         document.getElementById('button-hitung').disabled = false;
 
+        // set the loop for card count
         count = document.getElementById('card-count').value;
+        // set the cardCount for the loop in submitForm()
         setCardCount(count);
 
         const cards_location = document.getElementById('cards_location');
 
         let cardsHtml = ``
 
+        // make cards
         for (i = 1; i <= count; i++) {
             const nama_alternatif = `nama_alternatif_${i}`;
             const pengalaman_kerja = `pengalaman_kerja_${i}`;
