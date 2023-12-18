@@ -8,7 +8,7 @@
 <div class="container">
     <h1 class="text-center mt-5">Input Data</h1>
 
-    <form action="/test" method="post" class="mx-lg-5" enctype="application/json" id="main_form">
+    <form action="/ahp" method="post" class="mx-lg-5" enctype="application/json" id="main_form">
 
         <div class="row">
             <div class="col-6 offset-3">
@@ -195,7 +195,7 @@
         jsonData["judul"] = judul;
         console.log(jsonData);
 
-        axios.post('/test', jsonData)
+        axios.post('/ahp', jsonData)
             .then(function (response) {
                 // handle success
                 console.log(response);

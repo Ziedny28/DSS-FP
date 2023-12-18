@@ -28,8 +28,8 @@ def home():
     return render_template('index.html', form=form)
     
 
-@app.route('/ahp', methods=['POST'])
-def ahp():
+@app.route('/test', methods=['POST'])
+def test():
     data = request.get_json()
     # get data
     all_criterias = data['all_criterias']
@@ -64,8 +64,8 @@ def ahp():
         'final_decision': final_decision
     })
 
-@app.route('/test', methods=['POST'])
-def test():
+@app.route('/ahp', methods=['POST'])
+def ahp():
     try:
         data = request.get_json()
 
