@@ -19,6 +19,26 @@
             </div>
         </div>
 
+        <p class="text-center fw-bold mt-5">Masukkan jumlah alternatif</p>
+
+        <div class="row">
+            <div class="col-4 offset-4">
+                <div class="row">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control  shadow" id="card-count" name="card-count"
+                            placeholder="number">
+                        <label for="card-count">Alternatif count<label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 offset-4">
+                        <button id="create-card-button" class="btn btn-primary" onclick="createCard()"
+                            type="button">Buat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="bobot-kriteria">
 
             <h2 class="text-decoration text-center mt-5">Masukkan bobot kriteria</h2>
@@ -78,27 +98,6 @@
         <!-- bobot kriteria end -->
 
         <h2 class="text-center my-5">Per Alternatif</h2>
-
-        <p class="text-center fw-bold">Masukkan jumlah alternatif</p>
-
-        <div class="row">
-            <div class="col-6 offset-3">
-                <div class="row">
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="card-count" name="card-count"
-                            placeholder="number">
-                        <label for="card-count">Alternatif count<label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 offset-4">
-                        <button id="create-card-button" class="btn btn-primary" onclick="createCard()"
-                            type="button">Buat</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <div class="row" id="cards_location"></div>
 
