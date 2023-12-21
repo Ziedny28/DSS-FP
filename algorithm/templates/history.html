@@ -17,32 +17,34 @@
             var alternatif_data = [];
         </script>
         <h3>{{history.title}}</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for person in history.final_decision %}
-                <tr>
-                    <td>
-                        {{ person[0] }}
-                    </td>
-                    <td>
-                        {{ person[1] }}
-                    </td>
-                </tr>
-                <!-- for charts -->
-                <script>
-                    alternatif_labels.push("{{person[0]}}");
-                    alternatif_data.push("{{person[1]}}");
-                </script>
-                {% endfor %}
-            </tbody>
-        </table>
         <button class="btn btn-danger" onclick="deleteHistory('{{history.title}}')">Delete</button>
+        <div class="col-lg-6 offset-lg-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in history.final_decision %}
+                    <tr>
+                        <td>
+                            {{ person[0] }}
+                        </td>
+                        <td>
+                            {{ person[1] }}
+                        </td>
+                    </tr>
+                    <!-- for charts -->
+                    <script>
+                        alternatif_labels.push("{{person[0]}}");
+                        alternatif_data.push("{{person[1]}}");
+                    </script>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <!-- canvas per history -->
         <canvas id="myChart-{{loop.index}}"></canvas>

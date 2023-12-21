@@ -181,7 +181,13 @@
         </button>
     </form>
     <h1 id="solution"></h1>
-    <div id="list-result"></div>
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div id="table-result">
+            </div>
+        </div>
+    </div>
+
     <canvas id="myChart"></canvas>
 </div>
 <script>
@@ -246,15 +252,41 @@
                 alternatif_labels = []
                 alternatif_data = []
 
+                let listTableHtml = ``
+
                 final_decision.forEach(decision => {
-                    const list_hasil = document.createElement('li');
-                    list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
-                    list_result.append(list_hasil)
+                    // const list_hasil = document.createElement('li');
+                    // list_hasil.innerHTML = `<strong>${decision[0]}</strong>: ${decision[1]}`;
+                    // list_result.append(list_hasil)
+
+                    table = `
+                    <tr>
+                            <td>${decision[0]}</td>
+                            <td>${decision[1]}</td>
+                    </tr>
+                    `
+
+                    listTableHtml += table;
 
                     // save data for chart
                     alternatif_labels.push(decision[0])
                     alternatif_data.push(decision[1])
                 });
+
+                resultTable = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>alternatif</th>
+                            <th>nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${listTableHtml}
+                    </tbody>
+                </table>
+                `
+                document.getElementById('table-result').innerHTML = resultTable;
 
                 startChart(alternatif_labels, alternatif_data, "myChart")
 
