@@ -243,6 +243,18 @@
 
                 final_decision = response.data.final_decision;
 
+                Swal.fire({
+                    title: 'Success!', // Popup title
+                    text: 'Successfully counted.', // Popup message
+                    icon: 'success', // Show a green checkmark icon
+                    showConfirmButton: false, // Hide the confirmation button
+                    timer: 2000, // Automatically close after 2 seconds
+                    background: '#fff', // Or any other color you prefer    
+                    customClass: {
+                        title: 'black-title' // Add a custom class for the title
+                    }
+                });
+
                 console.log(final_decision);
 
                 list_result = document.getElementById('list-result')
@@ -358,14 +370,14 @@
                         <div class="row">
                             <div class="col-3">
                                 <div class="form-check">
-                                    <label class="form-check-label" for="${lokasi_kerja}">Dalam Malang</label>
+                                    <label class="form-check-label" style="font-size:10px" for="${lokasi_kerja}">Dalam Malang</label>
                                     <input type="checkbox" name="${lokasi_kerja}" class="form-check-input"
                                         id="${lokasi_kerja}">
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <label class="form-check-label" for="${pengalaman_organisasi}">Berpengalaman
+                                    <label class="form-check-label" style="font-size:10px" for="${pengalaman_organisasi}">Berpengalaman
                                         Organisasi</label>
                                     <input type="checkbox" name="${pengalaman_organisasi}" class="form-check-input"
                                         id="${pengalaman_organisasi}">
@@ -373,13 +385,13 @@
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <label class="form-check-label" for="${umur}">25 Tahun Kebawah</label>
+                                    <label class="form-check-label" style="font-size:10px" for="${umur}">25 Tahun Kebawah</label>
                                     <input type="checkbox" name="${umur}" class="form-check-input" id="${umur}">
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-check">
-                                    <label class="form-check-label" for="${ipk}">IPK 3.0 Keatas</label>
+                                    <label class="form-check-label" style="font-size:10px" for="${ipk}">IPK 3.0 Keatas</label>
                                     <input type="checkbox" name="${ipk}" class="form-check-input" id="${ipk}">
                                 </div>
                             </div>
